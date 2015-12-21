@@ -23,8 +23,14 @@ Once in the folder
 
     node index.js
 <hr>
-Open a new window in your browser and go to:
+Open a new window in your browser and navigate to:
 
     localhost:8080
     
+login with an arbitrary username 
+    
 Enjoy !
+
+
+For testing purposes:
+Open various windows on your browser and go to localhost:8080 (then login with an arbitrary name) and try to chat from several windows!
