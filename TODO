@@ -1,0 +1,10 @@
+TODO:
+
+1.  Feedback for when a user joined (instead of the current alert();)
+2.  Improve UI with bootstrap for when a person left
+3.  Add classes functionality
+  3.a List of classes (which will be rooms)
+  3.b Join a room (Path on our server will be localhost:8080/room1 or room2 whatever.) Currently, localhost:8080/index.html is the "main room"
+  3.c Add a room
+  
+
