@@ -23,6 +23,38 @@ app.post('/index.html',function(req,res){
 
 });
 
+
+/*
+  Stack overflow link 
+
+  http://stackoverflow.com/questions/10058226/send-response-to-all-clients-except-sender-socket-io
+
+   // sending to sender-client only
+ socket.emit('message', "this is a test");
+
+ // sending to all clients, include sender
+ io.emit('message', "this is a test");
+
+ // sending to all clients except sender
+ socket.broadcast.emit('message', "this is a test");
+
+ // sending to all clients in 'game' room(channel) except sender
+ socket.broadcast.to('game').emit('message', 'nice game');
+
+ // sending to all clients in 'game' room(channel), include sender
+ io.in('game').emit('message', 'cool game');
+
+ // sending to sender client, only if they are in 'game' room(channel)
+ socket.to('game').emit('message', 'enjoy the game');
+
+ // sending to all clients in namespace 'myNamespace', include sender
+ io.of('myNamespace').emit('message', 'gg');
+
+ // sending to individual socketid
+ socket.broadcast.to(socketid).emit('message', 'for your eyes only');
+
+*/
+
 io.on('connection', function(socket){
 
   var addedUser = false;
@@ -53,7 +85,7 @@ io.on('connection', function(socket){
 	      numUsers: numUsers
 	    });
  
-  });
+     });
 
     socket.on('disconnect',function(){
     	if(addedUser){
@@ -67,7 +99,16 @@ io.on('connection', function(socket){
     	}
 
     	console.log("user disconnected");
-	});
+	 });
+
+    //User is typing
+    socket.on('user typing',function(){
+
+      // send except sender
+      socket.broadcast.emit('user typing server',{
+        username:socket.username
+      });
+    });
   
 });
 
