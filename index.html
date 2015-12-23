@@ -30,6 +30,7 @@ var colors = [
  // var user = prompt("what is your name?");
 
  var socket = io();
+ var countMessages = 0;
 
  // socket.username = user;
  console.log(socket);
@@ -46,7 +47,7 @@ var colors = [
 
 
   socket.on('user left',function(data){
-    var line = $('<li>' + data.username + ' has left the chat </li><br>');
+    var line = $('<li>' + data.username + ' has left the chat </li>');
     var numUsers = $('<li>' + data.numUsers + ' participants in the chat</li>');
     $('#messages').append(line);
     $('#messages').append(numUsers);
@@ -55,6 +56,7 @@ var colors = [
 
   function submitForm()
   { 
+      countMessages = 0;
       console.log(userColor);
       var data = { msg: $('#m').val(), colorOfUser:userColor}; 
       if(document.getElementById("m").value != "")
@@ -70,6 +72,8 @@ var colors = [
 
 
   });
+
+
 </script>
   <body>
 
@@ -78,4 +82,27 @@ var colors = [
       <input id="m" placeholder="Type your message" autocomplete="off" /><button>Send</button>
     </form>
   </body>
+  <script>
+
+  // var pressedKey = false;
+
+   $( "#m" ).keydown(function() {
+  
+     countMessages++;
+     if(countMessages ==1)
+     {
+         socket.emit('user typing');
+     }
+    });
+
+   socket.on('user typing server',function(data){
+    if(socket.username != data.username)// So it does not display it on the same computer.
+      var typing = $('<li>' + data.username + 'is typing</li>');
+  
+    $('#messages').append(typing);
+
+
+   });
+   </script>
+
 </html>
