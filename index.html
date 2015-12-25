@@ -18,6 +18,10 @@
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" ></script>
 
+<style>
+
+
+</style>
 
 <script>
 
@@ -28,8 +32,13 @@ var colors = [
   ];
 
  // var user = prompt("what is your name?");
+ var socket;
+ var path = window.location.pathname;
+  if(path.indexOf('index.html')!=-1)
+    socket = io();
+  else
+    socket = io('/math141');
 
- var socket = io();
  var countMessages = 0;
 
  // socket.username = user;
@@ -97,7 +106,7 @@ var colors = [
 
    socket.on('user typing server',function(data){
     if(socket.username != data.username)// So it does not display it on the same computer.
-      var typing = $('<li>' + data.username + 'is typing</li>');
+      var typing = $('<li class="typingClass">' + data.username + 'is typing</li>');
   
     $('#messages').append(typing);
 

@@ -8,6 +8,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 var numUsers = 0;
 var username;
+var nsp = io.of('/');
+
 app.get('/',function(req,res){
 	 res.sendFile(__dirname + '/formprueba.html');
 });
@@ -20,9 +22,20 @@ app.post('/index.html',function(req,res){
 	 res.sendFile(__dirname + '/index.html');
 	 console.log(req.body.user.name);
 	 username=req.body.user.name;
+   nsp = io.of('/');
 
 });
 
+
+app.post('/math141',function(req,res){
+   
+   res.sendFile(__dirname + '/index.html');
+   console.log(req.body.user.name);
+   username=req.body.user.name;
+   nsp = io.of('/math141');
+
+
+});
 
 /*
   Stack overflow link 
@@ -55,13 +68,13 @@ app.post('/index.html',function(req,res){
 
 */
 
-io.on('connection', function(socket){
+nsp.on('connection', function(socket){
 
   var addedUser = false;
 
    socket.on('chat message', function(data){
    	// console.log(socket.username);
-     io.emit('chat message', {
+     nsp.emit('chat message', {
      	msg :data.msg,
      	colorOfUser:data.colorOfUser,
      	username: socket.username
