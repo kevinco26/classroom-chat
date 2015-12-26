@@ -8,6 +8,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 var numUsers = 0;
 var username;
+
 app.get('/',function(req,res){
    res.sendFile(__dirname + '/formprueba.html');
 });
@@ -16,13 +17,41 @@ app.get('/starsPrueba.jpg',function(req,res){
    res.sendFile(__dirname + '/starsPrueba.jpg');
 });
 
-app.post('/index.html',function(req,res){
+
+
+// app.post('/index.html',function(req,res){
+//    res.sendFile(__dirname + '/index.html');
+//    console.log(req.body.user.name);
+//    username=req.body.user.name;
+//    nsp = io.of('/phys211');
+
+// });
+
+
+// New stuff
+// app.post('/math141',function(req,res){
+//    res.sendFile(__dirname + '/index.html');
+//    console.log(req.body.user.name);
+//    username=req.body.user.name;
+//    nsp = io.of('/math141');
+
+// });
+
+var room;
+
+app.post('/class/:classID',function(req,res){
+    // if (!req.params.className) {
+    //      console.log("eror");
+    //     return;
+    // }
    res.sendFile(__dirname + '/index.html');
+   console.log(req.params.classID);
    console.log(req.body.user.name);
    username=req.body.user.name;
 
-});
+   room = req.params.classID;
 
+});
 
 /*
   Stack overflow link 
@@ -48,10 +77,11 @@ app.post('/index.html',function(req,res){
 io.on('connection', function(socket){
 
   var addedUser = false;
-
+   socket.join(room);
    socket.on('chat message', function(data){
     // console.log(socket.username);
-     io.emit('chat message', {
+
+     io.to(socket.room).emit('chat message', {
       msg :data.msg,
       colorOfUser:data.colorOfUser,
       username: socket.username
@@ -61,16 +91,17 @@ io.on('connection', function(socket){
     socket.on('add user', function(){
       if(addedUser)
         return;
+      socket.room = room;
       socket.username = username;
       console.log(username + " is Connected" );
       ++numUsers;
       addedUser = true;
 
-      socket.emit('login', {
+      socket.to(socket.room).emit('login', {
         numUsers: numUsers
       });
 
-      socket.broadcast.emit('user joined', {
+      socket.to(socket.room).broadcast.emit('user joined', {
         username: socket.username,
         numUsers: numUsers
       });
@@ -81,7 +112,7 @@ io.on('connection', function(socket){
       if(addedUser){
         --numUsers;
 
-        socket.broadcast.emit('user left', {
+        socket.to(socket.room).broadcast.emit('user left', {
           username: socket.username,
           numUsers: numUsers
         });
@@ -95,7 +126,7 @@ io.on('connection', function(socket){
     socket.on('user typing',function(){
 
       // send except sender
-      socket.broadcast.emit('user typing server',{
+      socket.to(socket.room).broadcast.emit('user typing server',{
         username:socket.username
       });
     });

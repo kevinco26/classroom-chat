@@ -28,7 +28,7 @@
 	<button class="btn btn-info" style="color:white;font-size:1.5em" id="loginButton">Signup or Login</button>
 	</div>
 
-	<form id="loginForm" method="post" action="index.html" class="form-horizontal" style="display: none;" onsubmit="return validateForm();">
+	<form id="loginForm" method="post" action="/class/phys211" class="form-horizontal" style="display: none;" onsubmit="return validateForm();">
 	    <div class="form-group">
 	        <label class="col-xs-3 control-label">Username</label>
 	        <div class="col-xs-5">
@@ -51,14 +51,14 @@
 	<br>
 
 
-	<!-- <form id="a" method="post" action="math141" class="form-horizontal">
+	<form id="a" method="post" action="/class/math141" class="form-horizontal">
 	    <div class="form-group">
 	        <label class="col-xs-3 control-label">Username</label>
 	        <div class="col-xs-5">
 	            <input type="text" class="form-control" name="user[name]" />
 	        </div>
 	    </div>
-	</form> -->
+	</form>
 
 	<div id="roomsDiv" class="row" class="container-fluid" style="margin-top:50px;padding-left:50px;display:none">
 		<div class="col-md-6">
@@ -66,7 +66,7 @@
 			<p>
 				Join an existing chat room in which you can discover new topics, people and more!
 			</p>
-			<form onsubmit="return gotoRoom();" id="classesForm">
+			<form  id="classesForm">
 				<select class="form-control" style="width:300px" id="classes">
 					<option value="MATH141">Math 141 class</option>
 				</select>
@@ -98,14 +98,6 @@
 		}
 	}
 
-	function gotoRoom(){
-		var selectBox = document.getElementById("classes");
-		var classesForm = document.getElementById("classesForm");
-
-    	classesForm.action = "index.html/" + selectBox.options[selectBox.selectedIndex].value;
-    	return true;
-	  
-	}
 
 $(document).ready(function() {
 
