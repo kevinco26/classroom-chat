@@ -24,13 +24,20 @@
 	<h2 id="mainTitle" style="margin-top:100px;color:white"> Welcome to the Chat app!</h2>
 	<br>
 	<br>
-
-	<button class="btn btn-info" style="color:white;font-size:1.5em" id="loginButton">Signup or Login</button>
 	</div>
 
-	<form id="loginForm" method="post" action="/class/phys211" class="form-horizontal" style="display: none;" onsubmit="return validateForm();">
+	<form id="loginForm" method="post" class="form-horizontal" style="display: none;" onsubmit="return validateForm();">
 	    <div class="form-group">
-	        <label class="col-xs-3 control-label">Username</label>
+	    	
+	    	<label class="col-xs-3 control-label">Class:</label>
+	    	
+	    	<select class="form-control" style="width:300px" id="classes">
+					<option value="math141">Math 141</option>
+					<option value="phys211">Physics 211</option>
+			</select>
+		
+			<br>
+	        <label class="col-xs-3 control-label">Name</label>
 	        <div class="col-xs-5">
 	            <input type="text" class="form-control" name="user[name]" id="username" />
 	        </div>
@@ -50,29 +57,14 @@
 	<br>
 	<br>
 
-
-	<form id="a" method="post" action="/class/math141" class="form-horizontal">
-	    <div class="form-group">
-	        <label class="col-xs-3 control-label">Username</label>
-	        <div class="col-xs-5">
-	            <input type="text" class="form-control" name="user[name]" />
-	        </div>
-	    </div>
-	</form>
-
 	<div id="roomsDiv" class="row" class="container-fluid" style="margin-top:50px;padding-left:50px;display:none">
 		<div class="col-md-6">
 			<h2 style="color:white"> Join a Chat Room</h2>
 			<p>
 				Join an existing chat room in which you can discover new topics, people and more!
 			</p>
-			<form  id="classesForm">
-				<select class="form-control" style="width:300px" id="classes">
-					<option value="MATH141">Math 141 class</option>
-				</select>
-				<br>
-			<button class="btn btn-primary" style="color:white;font-size:1.5em" id="join">Join Room</button>
-			</form>
+		
+			<button class="btn btn-primary" id="joinRoomButton" style="color:white;font-size:1.5em" type="button">Join Room</button>
 		</div>
 		<div class="col-md-6">
 			<h2 style="color:white"> Create a Chat Room</h2>
@@ -96,6 +88,9 @@
 	    	return false;
 			
 		}
+		var dd = document.getElementById("classes");
+		var className = dd.options[dd.selectedIndex].value;
+    	document.getElementById("loginForm").action ="/class/" + className;
 	}
 
 
@@ -110,7 +105,7 @@ $(document).ready(function() {
  	 });
 
     // Login button click handler
-    $('#loginButton').on('click', function() {
+    $('#joinRoomButton').on('click', function() {
 
         bootbox
             .dialog({
@@ -131,19 +126,6 @@ $(document).ready(function() {
             .modal('show');
     });
 
-
-
-
-	// var user;
-	// bootbox.prompt("What is your name?", function(result) {                
-	//   if (result == "" || result===null) {                                             
-	//  	  return false;  
-	//   } 
-	//   else {
-	// 	user = result;                  
-	//   }
-
-	// });
 });
 </script>
 

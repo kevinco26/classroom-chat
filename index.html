@@ -103,7 +103,7 @@ var colors = [
 
    socket.on('user typing server',function(data){
     if(socket.username != data.username)// So it does not display it on the same computer.
-      var typing = $('<li class="typingClass">' + data.username + 'is typing</li>');
+      var typing = $('<li class="typingClass">' + data.username + ' is typing</li>');
   
     $('#messages').append(typing);
 

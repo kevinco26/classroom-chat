@@ -6,9 +6,8 @@ var bodyParser = require('body-parser');
 
 app.use(bodyParser.urlencoded({ extended: true })); 
 
-var numUsers = 0;
 var username;
-
+var numUsers = 0;
 app.get('/',function(req,res){
    res.sendFile(__dirname + '/formprueba.html');
 });
@@ -37,7 +36,9 @@ app.get('/starsPrueba.jpg',function(req,res){
 
 // });
 
+var rooms = {};     // like a hash table to access later the number of users in a room
 var room;
+
 
 app.post('/class/:classID',function(req,res){
     // if (!req.params.className) {
@@ -48,9 +49,9 @@ app.post('/class/:classID',function(req,res){
    console.log(req.params.classID);
    console.log(req.body.user.name);
    username=req.body.user.name;
-
    room = req.params.classID;
-
+   if(!rooms[room])     // if it is undefinced(first time we add something to the array (a new room) then we set the number of users in that room to 0)
+     rooms[room] = 0;
 });
 
 /*
@@ -94,32 +95,35 @@ io.on('connection', function(socket){
       socket.room = room;
       socket.username = username;
       console.log(username + " is Connected" );
-      ++numUsers;
+      rooms[socket.room]++;
+      console.log("Num users in room" + room + "is " + rooms[socket.room])
       addedUser = true;
 
       socket.to(socket.room).emit('login', {
-        numUsers: numUsers
+        numUsers: rooms[room]
       });
 
       socket.to(socket.room).broadcast.emit('user joined', {
         username: socket.username,
-        numUsers: numUsers
+        numUsers: rooms[socket.room]
       });
  
      });
 
     socket.on('disconnect',function(){
       if(addedUser){
-        --numUsers;
+        var roomName = socket.room;
+        rooms[roomName]--;
 
         socket.to(socket.room).broadcast.emit('user left', {
           username: socket.username,
-          numUsers: numUsers
+          numUsers: rooms[roomName]
         });
 
       }
 
-      console.log("user disconnected");
+      console.log("user disconnected from room" + roomName + "Total users in this room: " + rooms[roomName] );
+
    });
 
     //User is typing
