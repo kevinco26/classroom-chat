@@ -1,16 +1,18 @@
 <!doctype html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
     <title>Socket.IO chat</title>
     <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
+      /** { margin: 0; padding: 0; box-sizing: border-box; }*/
+      /*body { font: 13px Helvetica, Arial; }*/
+      form { padding: 10px; position: fixed; bottom: 0; width: 100%; }
+      /*form input { border-color:black; padding: 10px; width: 90%; margin-right: .5%; }*/
+      /*form button { width: 9%; background: rgb(130, 224, 255); border-color:black; padding: 10px; }*/
+      #messages { list-style-type: none; margin-bottom: 100px;overflow:scroll;padding: 0; }
       #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
+      /*#messages li:nth-child(odd) { background: #eee; }*/
     </style>
   </head>
  <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
@@ -20,10 +22,16 @@
 
 <style>
 
+.joined{
+  text-align: center;
+  color: #D8D8D8  ;
+}
 
 </style>
 
 <script>
+
+
 
 var colors = [
     '#e21400', '#91580f', '#f8a700', '#f78b00',
@@ -47,16 +55,30 @@ var colors = [
   socket.emit('add user');
 
   socket.on('user joined', function (data) {
-    alert(data.username + " joined");
-    console.log("total Users: " + data.numUsers);
+    var userJoined = $('<ul class="joined">' + data.username + ' joined</ul>');
+    $('#messages').append(userJoined);
+    document.getElementById("participants").style.visibility="visible";
+    document.getElementById("participants").innerHTML = "Number of participants: " + data.numUsers;
+
+    document.getElementById("informationDiv").style.display = "none";    
+  $( "#informationDiv" ).fadeIn( 1000, function() {
+    // Animation complete
+   });
+
+   var objDiv = document.getElementById("messages");
+objDiv.scrollTop = objDiv.scrollHeight;
   });
+
+  // HAVE JUST ONE DIV FOR NUMBER PARTICIPANTS AND UPDATE JUST THAT SPECIFIC DIV ON THE TOP-CENTER OF THE PAGE.
 
 
   socket.on('user left',function(data){
-    var line = $('<li>' + data.username + ' has left the chat </li>');
-    var numUsers = $('<li>' + data.numUsers + ' participants in the chat</li>');
-    $('#messages').append(line);
-    $('#messages').append(numUsers);
+    var userLeft = $('<ul class="joined">' + data.username + ' left</ul>');
+    $('#messages').append(userLeft);
+    document.getElementById("participants").innerHTML = "Number of participants: " + data.numUsers;
+     var objDiv = document.getElementById("messages");
+      objDiv.scrollTop = objDiv.scrollHeight;
+
   });
 
 
@@ -67,28 +89,69 @@ var colors = [
       var data = { msg: $('#m').val(), colorOfUser:userColor}; 
       if(document.getElementById("m").value != "")
         socket.emit('chat message', data);
+      
       $('#m').val('');
       return false;
 
   }
 
    socket.on('chat message', function(data){
-    var line = $('<li><strong style="color:'+data.colorOfUser + '">'+data.username + '</strong> says: ' + data.msg + '</li>');
+    var line = $('<li><strong style="color:'+data.colorOfUser + '">'+data.username + '</strong>: ' + data.msg + '</li>');
     $('#messages').append(line);
-
-
+    var objDiv = document.getElementById("messages");
+    // alert(objDiv.scrollHeight);
+    objDiv.scrollTop = objDiv.scrollHeight;
   });
 
 
 </script>
   <body>
+    <div id="informationDiv" style="height:100px;overflow:auto;text-align:center;display:none">
+      <h2 id="participants" style="visibility:hidden">Number of participants:</h2>
 
-    <ul id="messages"></ul>
+    </div>
+    <ul style="height:500px;font-size:16px" id="messages"></ul>
+   
     <form action="" onsubmit="return submitForm();">
-      <input id="m" placeholder="Type your message" autocomplete="off" /><button>Send</button>
+      <div class ="row">
+        <div id="inputMessage" class = "col-md-11">
+          <input id="m" style="font-size:16px" class="form-control" type="text" placeholder="Type your message" />
+        </div>
+        <div id ="submitButtonDiv" class="col-md-1">
+          <input id="submitButton" type="submit" class="btn btn-success" value="Send" />
+        </div>
+      </div>
     </form>
   </body>
   <script>
+
+  // Mobile responsiveness with text input
+  var mq = window.matchMedia('all and (max-width: 700px)');
+    if(mq.matches) {
+      document.getElementById("submitButtonDiv").className = "col-xs-12";
+      document.getElementById("submitButtonDiv").style.paddingTop= "5px";
+      document.getElementById("submitButton").style.width = "100%";
+
+    }
+    else {
+
+    }
+    mq.addListener(function(changed) {
+      
+      if(changed.matches) {
+         document.getElementById("submitButtonDiv").className = "col-xs-12";
+      document.getElementById("submitButtonDiv").style.paddingTop= "5px";
+      document.getElementById("submitButton").style.width = "100%";
+      }
+      else
+      {
+         document.getElementById("submitButtonDiv").className = "col-md-1";
+         document.getElementById("submitButtonDiv").style.paddingTop= "0px";
+      
+
+      }
+    });
+
 
   // var pressedKey = false;
 
@@ -104,7 +167,6 @@ var colors = [
    socket.on('user typing server',function(data){
     if(socket.username != data.username)// So it does not display it on the same computer.
       var typing = $('<li class="typingClass">' + data.username + ' is typing</li>');
-  
     $('#messages').append(typing);
 
 

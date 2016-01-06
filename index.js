@@ -103,7 +103,7 @@ io.on('connection', function(socket){
         numUsers: rooms[room]
       });
 
-      socket.to(socket.room).broadcast.emit('user joined', {
+      io.to(socket.room).emit('user joined', {
         username: socket.username,
         numUsers: rooms[socket.room]
       });
