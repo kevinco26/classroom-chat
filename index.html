@@ -86,6 +86,7 @@ objDiv.scrollTop = objDiv.scrollHeight;
   { 
       countMessages = 0;
       console.log(userColor);
+
       var data = { msg: $('#m').val(), colorOfUser:userColor}; 
       if(document.getElementById("m").value != "")
         socket.emit('chat message', data);
@@ -99,6 +100,7 @@ objDiv.scrollTop = objDiv.scrollHeight;
     var line = $('<li><strong style="color:'+data.colorOfUser + '">'+data.username + '</strong>: ' + data.msg + '</li>');
     $('#messages').append(line);
     var objDiv = document.getElementById("messages");
+    $(".typingClass"+data.username).remove();
     // alert(objDiv.scrollHeight);
     objDiv.scrollTop = objDiv.scrollHeight;
   });
@@ -160,13 +162,15 @@ objDiv.scrollTop = objDiv.scrollHeight;
      countMessages++;
      if(countMessages ==1)
      {
-         socket.emit('user typing');
+         var data = {colorOfUser:userColor}; 
+         socket.emit('user typing',data);
      }
     });
-
+  
    socket.on('user typing server',function(data){
     if(socket.username != data.username)// So it does not display it on the same computer.
-      var typing = $('<li class="typingClass">' + data.username + ' is typing</li>');
+
+      var typing = $('<li class="typingClass'+data.username+'"><strong style="color:'+data.colorOfUser + '">'+data.username + '</strong> is typing</li>');
     $('#messages').append(typing);
 
 
