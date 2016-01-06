@@ -127,11 +127,12 @@ io.on('connection', function(socket){
    });
 
     //User is typing
-    socket.on('user typing',function(){
+    socket.on('user typing',function(data){
 
       // send except sender
       socket.to(socket.room).broadcast.emit('user typing server',{
-        username:socket.username
+        username:socket.username,
+        colorOfUser:data.colorOfUser
       });
     });
   
