@@ -1,10 +1,5 @@
 TODO:
-
-1.  Feedback for when a user joined (instead of the current alert();)
-2.  Improve UI with bootstrap for when a person left
-3.  Add classes functionality
-  3.a List of classes (which will be rooms)
-  3.b Join a room (Path on our server will be localhost:8080/room1 or room2 whatever.) Currently, localhost:8080/index.html is the "main room"
-  3.c Add a room
-  
+1. MONGODB to store messages, (maybe who sent the message?) and the class in which the message belongs. So that when the website is opened, we will be able to see ALL messages said before
+2. Users?(accounts?)
+3. Add picture integration (later)
 
