@@ -4,7 +4,7 @@ Classroom chat app based on NodeJs Framework Socket.io
 
 Uses Express.js for the server side.
 
-# To run:
+# To run locally:
 install nodejs
 
 install express
@@ -30,6 +30,9 @@ Open a new window in your browser and navigate to:
 login with an arbitrary username 
     
 Enjoy !
+
+Running with Heroku:
+classroom-chat-app.herokuapp.com
 
 
 For testing purposes:
