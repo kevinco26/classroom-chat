@@ -138,8 +138,8 @@ io.on('connection', function(socket){
   
 });
 
-var port  = Number(process.env.PORT || 8080);
+var port  = Number(process.env.PORT || 5000);
 
 http.listen(port, function() {
-  console.log('Server running at http://127.0.0.1:8080');
+  console.log('Server running at http://127.0.0.1:5000');
 });
