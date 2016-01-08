@@ -53,6 +53,18 @@ var colors = [
  // socket.colorUser = userColor;
 
   socket.emit('add user');
+  socket.emit('display messages');
+
+  socket.on('populate messages from DB', function (data){
+     // sort by date, then print
+     for(var i =0; i< data.length;i++)
+     {
+
+       var line = $('<li><strong style="color:'+data[i].color + '">'+data[i].username + '</strong>: ' + data[i].message + '</li>');
+       $('#messages').append(line);
+     }
+
+  });
 
   socket.on('user joined', function (data) {
     var userJoined = $('<ul class="joined">' + data.username + ' joined</ul>');
@@ -172,6 +184,8 @@ objDiv.scrollTop = objDiv.scrollHeight;
 
       var typing = $('<li class="typingClass'+data.username+'"><strong style="color:'+data.colorOfUser + '">'+data.username + '</strong> is typing</li>');
     $('#messages').append(typing);
+    var objDiv = document.getElementById("messages");
+      objDiv.scrollTop = objDiv.scrollHeight;
 
 
    });

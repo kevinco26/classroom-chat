@@ -2,9 +2,25 @@ var app = require("express")();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+var mongoose = require('mongoose');   // For database manipulation with mongodb
+
 var bodyParser = require('body-parser');
 
+mongoose.connect('mongodb://localhost/ChatMessages');
+
 app.use(bodyParser.urlencoded({ extended: true })); 
+
+
+// All the JSON objects in the database will look like the following Schema
+var Schema = new mongoose.Schema({
+  date:       String,     // When was the message sent
+  message:  String,       // the message itself
+  color:       String,    // Color of the user
+  username: String,       // name of the person who sent it
+  className:      String  // Where was that person sending the message (the room).
+});
+
+var entry = mongoose.model('messages',Schema);
 
 var username;
 var numUsers = 0;
@@ -17,24 +33,6 @@ app.get('/starsPrueba.jpg',function(req,res){
 });
 
 
-
-// app.post('/index.html',function(req,res){
-//    res.sendFile(__dirname + '/index.html');
-//    console.log(req.body.user.name);
-//    username=req.body.user.name;
-//    nsp = io.of('/phys211');
-
-// });
-
-
-// New stuff
-// app.post('/math141',function(req,res){
-//    res.sendFile(__dirname + '/index.html');
-//    console.log(req.body.user.name);
-//    username=req.body.user.name;
-//    nsp = io.of('/math141');
-
-// });
 
 var rooms = {};     // like a hash table to access later the number of users in a room
 var room;
@@ -77,8 +75,14 @@ app.post('/class/:classID',function(req,res){
 
 io.on('connection', function(socket){
 
+  // When connected, retrieve everything from the database and send it to the front end html so that it can be populated and previous messages will appear
+
+  var dataFromDB;
   var addedUser = false;
    socket.join(room);
+
+
+
    socket.on('chat message', function(data){
     // console.log(socket.username);
 
@@ -87,6 +91,17 @@ io.on('connection', function(socket){
       colorOfUser:data.colorOfUser,
       username: socket.username
      });
+
+      new entry({
+            date:      new Date(),               // When was the message sent
+            message:  data.msg,               // the message itself
+            color:       data.colorOfUser,    // Color of the user
+            username: socket.username,        // name of the person who sent it
+            className:      socket.room 
+          }).save(function(err,doc){
+            if(err) return err;
+          });
+
    });
 
     socket.on('add user', function(){
@@ -109,6 +124,25 @@ io.on('connection', function(socket){
       });
  
      });
+
+    socket.on('display messages',function(){
+
+      entry.find(function(err,docs){
+      if(err) 
+        return err;
+      else{
+       dataFromDB = docs;
+       console.log(dataFromDB);
+       socket.emit('populate messages from DB',dataFromDB);
+     }
+    });
+
+    });
+
+
+    
+
+
 
     socket.on('disconnect',function(){
       if(addedUser){
