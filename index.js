@@ -132,7 +132,7 @@ io.on('connection', function(socket){
         return err;
       else{
        dataFromDB = docs;
-       console.log(dataFromDB);
+     
        socket.emit('populate messages from DB',dataFromDB);
      }
     });
