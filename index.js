@@ -6,7 +6,7 @@ var mongoose = require('mongoose');   // For database manipulation with mongodb
 
 var bodyParser = require('body-parser');
 
-mongoose.connect('mongodb://localhost/ChatMessages');
+mongoose.connect('mongodb://kevinco26:chatmessages@ds039115.mongolab.com:39115/chatmessagesdb');
 
 app.use(bodyParser.urlencoded({ extended: true })); 
 

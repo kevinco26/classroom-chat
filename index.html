@@ -55,13 +55,17 @@ var colors = [
   socket.emit('add user');
   socket.emit('display messages');
 
+  var pathName = window.location.pathname;
+  pathName = pathName.substring(7);       // Just get the class Name and Number. (CMPSC121, CMPSC473)
+
   socket.on('populate messages from DB', function (data){
-     // sort by date, then print
+     //print messages if pertained in that class
      for(var i =0; i< data.length;i++)
      {
-
+       if(data[i].className == pathName){
        var line = $('<li><strong style="color:'+data[i].color + '">'+data[i].username + '</strong>: ' + data[i].message + '</li>');
        $('#messages').append(line);
+       }
      }
 
   });
