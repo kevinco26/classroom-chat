@@ -65,8 +65,11 @@ var colors = [
        if(data[i].className == pathName){
        var line = $('<li><strong style="color:'+data[i].color + '">'+data[i].username + '</strong>: ' + data[i].message + '</li>');
        $('#messages').append(line);
+
        }
      }
+     var objDiv = document.getElementById("messages");
+      objDiv.scrollTop = objDiv.scrollHeight;
 
   });
 
@@ -106,6 +109,7 @@ objDiv.scrollTop = objDiv.scrollHeight;
       var data = { msg: $('#m').val(), colorOfUser:userColor}; 
       if(document.getElementById("m").value != "")
         socket.emit('chat message', data);
+
       
       $('#m').val('');
       return false;
@@ -136,13 +140,19 @@ objDiv.scrollTop = objDiv.scrollHeight;
           <input id="m" style="font-size:16px" class="form-control" type="text" placeholder="Type your message" />
         </div>
         <div id ="submitButtonDiv" class="col-md-1">
-          <input id="submitButton" type="submit" class="btn btn-success" value="Send" />
+          <input id="submitButton" type="submit" class="btn btn-success" value="Send" onclick="keepKeyboard();" />
         </div>
       </div>
     </form>
   </body>
   <script>
 
+  function keepKeyboard(){
+
+    document.getElementById("m").focus();
+  
+
+  }
   // Mobile responsiveness with text input
   var mq = window.matchMedia('all and (max-width: 700px)');
     if(mq.matches) {
