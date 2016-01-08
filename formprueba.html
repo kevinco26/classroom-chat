@@ -8,6 +8,8 @@
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" ></script>
 <script src="https://oss.maxcdn.com/bootbox/4.2.0/bootbox.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/js/bootstrap-select.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/css/bootstrap-select.min.css">
 
 </head>
 <style>
@@ -28,22 +30,54 @@
 	</div>
 
 	<form id="loginForm" method="post" class="form-horizontal" style="display: none;" onsubmit="return validateForm();">
-	    <div class="form-group">
+	    <!-- <div class="form-group"> -->
 	    	
 	    	<label class="col-xs-3 control-label">Class:</label>
 	    	
-	    	<select class="form-control" style="width:300px" id="classes">
+	    	<select class="selectpicker" id="classes">
 					<option value="math141">Math 141</option>
 					<option value="phys211">Physics 211</option>
-			</select>
-		
-			<br>
-	        <label class="col-xs-3 control-label">Name</label>
-	        <div class="col-xs-5">
-	            <input type="text" class="form-control" name="user[name]" id="username" />
-	        </div>
-	    </div>
+					<option value="CMPSC100Domico">CMPSC 100 Domico</option>
+					<option value="CMPSC101Parimalarangan">CMPSC 101 Parimalarangan</option>
+					<option value="CMPSC101Li">CMPSC 101 Li</option>
+					<option value="CMPSC101Tehranchi">CMPSC 101 Tehranchi</option>
+					<option value="CMPSC101Verbanek">CMPSC 101 Verbanec</option>
+					<option value="CMPSC101Kachurak">CMPSC 101 Kachurak</option>
+					<option value="CMPSC111SHannan">CMPSC 111S Hannan</option>
+					<option value="CMPSC121Shaffer">CMPSC 121 Shaffer</option>
+					<option value="CMPSC121Quick">CMPSC 121 Quick</option>
+					<option value="CMPSC122Christman">CMPSC 122 Christman</option>
+					<option value="CMPSC200Scottile">CMPSC 200 Scottile</option>
+					<option value="CMPSC201Quick">CMPSC 201 Quick</option>
+					<option value="CMPSC203Fukuyama">CMPSC 203 Fukuyama</option>
+					<option value="CMPSC221Verbanec">CMPSC 221 Verbanec</option>
+					<option value="CMPSC296">CMPSC 296 </option>
+					<option value="CMPSC311Urgaonkar">CMPSC 311 Verbanec</option>
+					<option value="CMPSC431W">CMPSC 431W </option>
+					<option value="CMPSC443Tan">CMPSC 443 Tan </option>
+					<option value="CMPSC450Madduri">CMPSC 450 Madduri </option>
+					<option value="CMPSC451Madduri">CMPSC 451 Madduri </option>
+					<option value="CMPSC455Ma">CMPSC 455 Ma </option>
+					<option value="CMPSC456Harlim">CMPSC 456 Harlim </option>
+					<option value="CMPSC461">CMPSC 461 </option>
 
+
+					
+			</select>
+			<script>
+			$('.selectpicker').selectpicker({
+			  size: 10
+			});
+			</script>
+			<br>
+			<br>
+	        <label class="col-xs-3 control-label">Name:</label>
+	        <!-- <div class="col-xs-5"> -->
+	            <input type="text" class="form-control" name="user[name]" id="username" style="width:220px"/>
+	        <!-- </div> -->
+	    <!-- </div> -->
+	    	<br>
+	    	<br>
 		 	<div class="alert alert-danger" role="alert" style="display:none" id="emptyUser">
 		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 		  <span class="sr-only">Error:</span>
