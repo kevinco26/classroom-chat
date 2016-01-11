@@ -56,6 +56,8 @@ var colors = [
   socket.emit('display messages');
 
   var pathName = window.location.pathname;
+  var professor = pathName.substring(15);
+
   pathName = pathName.substring(7);       // Just get the class Name and Number. (CMPSC121, CMPSC473)
 
   socket.on('populate messages from DB', function (data){
@@ -78,11 +80,14 @@ var colors = [
     $('#messages').append(userJoined);
     document.getElementById("participants").style.visibility="visible";
     document.getElementById("participants").innerHTML = "Number of participants: " + data.numUsers;
+     document.getElementById("courseName").style.visibility="visible";
+    document.getElementById("courseName").innerHTML = "Welcome to "+ pathName.substring(0,8) + " with " + professor ;
 
     document.getElementById("informationDiv").style.display = "none";    
   $( "#informationDiv" ).fadeIn( 1000, function() {
     // Animation complete
    });
+
 
    var objDiv = document.getElementById("messages");
 objDiv.scrollTop = objDiv.scrollHeight;
@@ -128,11 +133,14 @@ objDiv.scrollTop = objDiv.scrollHeight;
 
 </script>
   <body>
-    <div id="informationDiv" style="height:100px;overflow:auto;text-align:center;display:none">
+    <br>
+    <div id="informationDiv" style="height:175px;overflow:auto;text-align:center;display:none">
+      <h2 id="courseName" style="visibility:hidden">Hello</h2>
       <h2 id="participants" style="visibility:hidden">Number of participants:</h2>
 
     </div>
-    <ul style="height:400px;font-size:16px" id="messages"></ul>
+  
+    <ul style="height:500px;font-size:16px" id="messages"></ul>
    
     <form action="" onsubmit="return submitForm();">
       <div class ="row">
@@ -168,6 +176,7 @@ $(document).ready(function () {
     if(mq.matches) {
       document.getElementById("submitButtonDiv").className = "col-xs-12";
       document.getElementById("submitButtonDiv").style.paddingTop= "5px";
+      document.getElementById("messages").style.height = "400px";
       document.getElementById("submitButton").style.width = "100%";
 
     }
