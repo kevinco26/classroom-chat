@@ -36,6 +36,7 @@
 	    	<label class="col-xs-3 control-label">Class:</label>
 	    	
 	    	<select class="selectpicker" id="classes">
+					<option value="-1">Select a Class</option>
 					<option value="CMPSC100Domico">CMPSC 100 Domico</option>
 					<option value="CMPSC101Parimalarangan">CMPSC 101 Parimalarangan</option>
 					<option value="CMPSC101Li">CMPSC 101 Li</option>
@@ -51,7 +52,7 @@
 					<option value="CMPSC203Fukuyama">CMPSC 203 Fukuyama</option>
 					<option value="CMPSC221Verbanec">CMPSC 221 Verbanec</option>
 					<option value="CMPSC296">CMPSC 296 </option>
-					<option value="CMPSC311Urgaonkar">CMPSC 311 Verbanec</option>
+					<option value="CMPSC311Urgaonkar">CMPSC 311 Urgaonkar</option>
 					<option value="CMPSC431W">CMPSC 431W </option>
 					<option value="CMPSC443Tan">CMPSC 443 Tan </option>
 					<option value="CMPSC450Madduri">CMPSC 450 Madduri </option>
@@ -59,6 +60,12 @@
 					<option value="CMPSC455Ma">CMPSC 455 Ma </option>
 					<option value="CMPSC456Harlim">CMPSC 456 Harlim </option>
 					<option value="CMPSC461">CMPSC 461 </option>
+					<option value="CMPSC465Berman">CMPSC 465 Berman </option>
+					<option value="CMPSC465Berman">CMPSC 465 Smith </option>
+					<option value="CMPSC473Jaeger">CMPSC 473 Jaeger </option>
+					<option value="CMPSC483WVerbanec">CMPSC 483W Verbanec </option>
+					<option value="CMPSC497CKifer">CMPSC 497C Kifer </option>
+					<option value="CMPSC497EFast">CMPSC 497E Fast </option>
 					
 			</select>
 			<script>
@@ -77,8 +84,8 @@
 	    	<br>
 		 	<div class="alert alert-danger" role="alert" style="display:none" id="emptyUser">
 		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-		  <span class="sr-only">Error:</span>
-		  Please enter a non-empty username
+		  <span class="sr-only" id="error">Error:</span>
+		 
 		</div>
 	    <div class="form-group">
 	        <div class="col-xs-5 col-xs-offset-3">
@@ -117,9 +124,19 @@
 	    if(document.getElementById("username").value == "")
 	    {
 	    	document.getElementById("emptyUser").style.display = "inherit";
+	    	document.getElementById("emptyUser").innerHTML = "ERROR: Please enter a nonempty username";
+
 	    	return false;
 			
 		}
+		if(document.getElementById("classes").value==-1)
+		{
+	    	document.getElementById("emptyUser").style.display = "inherit";
+	    	document.getElementById("emptyUser").innerHTML = "ERROR: Please select a class";
+
+			return false;
+		}
+
 		var dd = document.getElementById("classes");
 		var className = dd.options[dd.selectedIndex].value;
     	document.getElementById("loginForm").action ="/class/" + className;
