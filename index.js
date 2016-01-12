@@ -1,5 +1,10 @@
 var app = require("express")();
 var http = require('http').Server(app);
+
+setInterval(function() {
+    http.get("http://classroom-chat-app.herokuapp.com");
+}, 600000); // every 10 minutes (300000)
+
 var io = require('socket.io')(http);
 
 var mongoose = require('mongoose');   // For database manipulation with mongodb
