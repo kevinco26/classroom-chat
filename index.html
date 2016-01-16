@@ -15,12 +15,29 @@
       /*#messages li:nth-child(odd) { background: #eee; }*/
     </style>
   </head>
+  
  <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" ></script>
+ <script src="../autogrow.js"></script>
 
 <style>
+
+::-webkit-scrollbar{
+
+    -webkit-appearance: none;
+    width: 4px;
+
+}
+
+::-webkit-scrollbar-thumb {
+
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.5); 
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
 
 .joined{
   text-align: center;
@@ -30,8 +47,6 @@
 </style>
 
 <script>
-
-
 
 var colors = [
     '#e21400', '#91580f', '#f8a700', '#f78b00',
@@ -54,34 +69,108 @@ var colors = [
 
   socket.emit('add user');
   socket.emit('display messages');
+  socket.emit('display notifications');
 
   var pathName = window.location.pathname;
-  var professor = pathName.substring(15);
+  var professor;
+  var courseName;
+  pathName = pathName.substring(7);  // Just get the class Name and Number. (CMPSC121, CMPSC473)
 
-  pathName = pathName.substring(7);       // Just get the class Name and Number. (CMPSC121, CMPSC473)
-
+  if(pathName.indexOf("483")!=-1 || pathName.indexOf("431")!=-1 || pathName.indexOf("497")!=-1){
+    professor = pathName.substring(9);
+    courseName = pathName.substring(0,9);
+  }
+  else{
+       professor = pathName.substring(8);
+       courseName = pathName.substring(0,8);
+  }
   socket.on('populate messages from DB', function (data){
+    var objDiv = document.getElementById("messages");
+ 
+
      //print messages if pertained in that class
+
      for(var i =0; i< data.length;i++)
      {
+      
+       var msg = data[i].message;
+       var line;
+    
        if(data[i].className == pathName){
-       var line = $('<li><strong style="color:'+data[i].color + '">'+data[i].username + '</strong>: ' + data[i].message + '</li>');
-       $('#messages').append(line);
+        if(window.innerWidth>1000){
+         if(msg.length>100)
+         {
+
+           line = $('<li><em style="color:#A0A0A0">'+data[i].date.substring(4,21) +'</em><strong style="color:'+data[i].color + '"> '+data[i].username + '</strong>: ' + msg.substring(0,100) +'</li>');
+           $('#messages').append(line);
+           msg = msg.substring(100);
+           while(msg.length>100)
+           {
+            line = $('<li>'+msg.substring(0,100) +'</li>');
+            $('#messages').append(line);
+            msg= msg.substring(100);
+
+           }
+         }
+         else
+         {
+           line = $('<li><em style="color:#A0A0A0">'+data[i].date.substring(4,21) +'</em><strong style="color:'+data[i].color + '"> '+data[i].username + '</strong>: ' + data[i].message +'</li>');
+            $('#messages').append(line);
+         }
+       }
+       else
+       {
+          if(msg.length>25)
+         {
+
+           line = $('<li><em style="color:#A0A0A0">'+data[i].date.substring(4,21) +'</em><strong style="color:'+data[i].color + '"> '+data[i].username + '</strong>: ' + msg.substring(0,25) +'</li>');
+           $('#messages').append(line);
+           msg = msg.substring(25);
+           while(msg.length>40)
+           {
+            line = $('<li>'+msg.substring(0,40) +'</li>');
+            $('#messages').append(line);
+            msg= msg.substring(40);
+
+           }
+         }
+         else
+         {
+           line = $('<li><em style="color:#A0A0A0">'+data[i].date.substring(4,21) +'</em><strong style="color:'+data[i].color + '"> '+data[i].username + '</strong>: ' + data[i].message +'</li>');
+            $('#messages').append(line);
+         }
+
 
        }
-     }
-     var objDiv = document.getElementById("messages");
-      objDiv.scrollTop = objDiv.scrollHeight;
 
+       }
+
+     }  
+           objDiv.scrollTop = objDiv.scrollHeight;
+           window.scrollTo(0,document.body.scrollHeight);
+
+
+
+
+  });
+  
+  socket.on('display notifications client', function (data){
+    if (window.webkitNotifications && navigator.userAgent.indexOf("Chrome") > -1 || window.Notification) {
+
+    if(data.roomUser == pathName)
+      var n = new Notification('Your room is active', {'body': 'People are talking in your room','icon':'starsPrueba.jpg'});
+    }
   });
 
   socket.on('user joined', function (data) {
+    
+
     var userJoined = $('<ul class="joined">' + data.username + ' joined</ul>');
     $('#messages').append(userJoined);
     document.getElementById("participants").style.visibility="visible";
     document.getElementById("participants").innerHTML = "Number of participants: " + data.numUsers;
      document.getElementById("courseName").style.visibility="visible";
-    document.getElementById("courseName").innerHTML = "Welcome to "+ pathName.substring(0,8) + " with " + professor ;
+    document.getElementById("courseName").innerHTML = "Welcome to "+ courseName + " with " + professor ;
 
     document.getElementById("informationDiv").style.display = "none";    
   $( "#informationDiv" ).fadeIn( 1000, function() {
@@ -122,14 +211,68 @@ objDiv.scrollTop = objDiv.scrollHeight;
   }
 
    socket.on('chat message', function(data){
-    var line = $('<li><strong style="color:'+data.colorOfUser + '">'+data.username + '</strong>: ' + data.msg + '</li>');
-    $('#messages').append(line);
+    
+    var date = new Date();
+    var formattedDate =date.toString().substring(4,21);
+
+
+       var msg = data.msg;
+       var line;
+    
+       
+        if(window.innerWidth>1000){
+         if(msg.length>100)
+         {
+
+           line = $('<li><em style="color:#A0A0A0">'+formattedDate +'</em><strong style="color:'+data.colorOfUser + '"> '+data.username + '</strong>: ' + msg.substring(0,100) +'</li>');
+           $('#messages').append(line);
+           msg = msg.substring(100);
+           while(msg.length>100)
+           {
+            line = $('<li>'+msg.substring(0,100) +'</li>');
+            $('#messages').append(line);
+            msg= msg.substring(100);
+
+           }
+         }
+         else
+         {
+           line = $('<li><em style="color:#A0A0A0">'+formattedDate +'</em><strong style="color:'+data.colorOfUser + '"> '+data.username + '</strong>: ' + data.msg +'</li>');
+            $('#messages').append(line);
+         }
+       }
+       else
+       {
+          if(msg.length>25)
+         {
+
+           line = $('<li><em style="color:#A0A0A0">'+formattedDate +'</em><strong style="color:'+data.colorOfUser + '"> '+data.username + '</strong>: ' + msg.substring(0,25) +'</li>');
+           $('#messages').append(line);
+           msg = msg.substring(25);
+           while(msg.length>40)
+           {
+            line = $('<li>'+msg.substring(0,40) +'</li>');
+            $('#messages').append(line);
+            msg= msg.substring(40);
+
+           }
+         }
+         else
+         {
+           line = $('<li><em style="color:#A0A0A0">'+formattedDate+'</em><strong style="color:'+data.colorOfUser + '"> '+data.username + '</strong>: ' + data.msg +'</li>');
+            $('#messages').append(line);
+         }
+
+
+       }
+
+           
+    // $('#messages').append(line);
     var objDiv = document.getElementById("messages");
     $(".typingClass"+data.username).remove();
     // alert(objDiv.scrollHeight);
     objDiv.scrollTop = objDiv.scrollHeight;
   });
-
 
 </script>
   <body>
@@ -139,14 +282,15 @@ objDiv.scrollTop = objDiv.scrollHeight;
       <h2 id="participants" style="visibility:hidden">Number of participants:</h2>
 
     </div>
-  
-    <ul style="height:500px;font-size:16px" id="messages"></ul>
+    
+    <ul style="height:450px;font-size:16px;" id="messages" ></ul>
    
-    <form action="" onsubmit="return submitForm();">
+    <form id="formID" action="" onsubmit="return submitForm();">
       <div class ="row">
         <div id="inputMessage" class = "col-md-11">
-          <input id="m" style="font-size:16px" class="form-control" type="text" placeholder="Type your message" />
-        </div>
+          <textarea id="m" style="font-size:16px;height:40px" class="form-control" type="submit" onfocus="scrollDown()" placeholder="Type your message"></textarea>
+      
+         </div>
         <div id ="submitButtonDiv" class="col-md-1">
           <input id="submitButton" type="submit" class="btn btn-success" value="Send" onclick="keepKeyboard();" />
         </div>
@@ -157,13 +301,22 @@ objDiv.scrollTop = objDiv.scrollHeight;
 
 
 $(document).ready(function () {
+  
   $('#messages').click(function () {
     document.activeElement.blur();
 
   });
+
+  $('#m').autogrow();
    
 
 });
+function scrollDown(){
+
+  var objDiv = document.getElementById("messages");
+      objDiv.scrollTop = objDiv.scrollHeight;
+
+}
 
   function keepKeyboard(){
 
@@ -202,8 +355,13 @@ $(document).ready(function () {
 
   // var pressedKey = false;
 
-   $( "#m" ).keydown(function() {
-  
+   $( "#m" ).keydown(function(e) {
+
+    if ((e.keyCode == 10 || e.keyCode == 13)){
+        e.preventDefault();
+        submitForm();
+        return;
+    }
      countMessages++;
      if(countMessages ==1)
      {

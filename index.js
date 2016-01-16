@@ -1,10 +1,6 @@
 var app = require("express")();
 var http = require('http').Server(app);
 
-setInterval(function() {
-    http.get("http://classroom-chat-app.herokuapp.com");
-}, 600000); // every 10 minutes (300000)
-
 var io = require('socket.io')(http);
 
 var mongoose = require('mongoose');   // For database manipulation with mongodb
@@ -14,6 +10,7 @@ var bodyParser = require('body-parser');
 mongoose.connect('mongodb://kevinco26:chatmessages@ds039115.mongolab.com:39115/chatmessagesdb');
 
 app.use(bodyParser.urlencoded({ extended: true })); 
+
 
 
 // All the JSON objects in the database will look like the following Schema
@@ -36,8 +33,9 @@ app.get('/',function(req,res){
 app.get('/starsPrueba.jpg',function(req,res){
    res.sendFile(__dirname + '/starsPrueba.jpg');
 });
-
-
+app.get('/autogrow.js',function(req,res){
+   res.sendFile(__dirname + '/autogrow.js');
+});
 
 var rooms = {};     // like a hash table to access later the number of users in a room
 var room;
@@ -98,7 +96,7 @@ io.on('connection', function(socket){
      });
 
       new entry({
-            date:      new Date(),               // When was the message sent
+            date:      new Date(),            // When was the message sent
             message:  data.msg,               // the message itself
             color:       data.colorOfUser,    // Color of the user
             username: socket.username,        // name of the person who sent it
@@ -126,10 +124,12 @@ io.on('connection', function(socket){
       io.to(socket.room).emit('user joined', {
         username: socket.username,
         numUsers: rooms[socket.room]
+        
       });
  
      });
 
+    // Display db messages
     socket.on('display messages',function(){
 
       entry.find(function(err,docs){
@@ -144,6 +144,14 @@ io.on('connection', function(socket){
 
     });
 
+    //Display notifications
+
+
+    socket.on('display notifications',function(){
+        socket.to(socket.room).broadcast.emit('display notifications client',{
+          roomUser: socket.room
+        });
+    });
 
     
 

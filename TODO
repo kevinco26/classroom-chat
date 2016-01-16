@@ -1,5 +1,3 @@
 TODO:
-1. MONGODB to store messages, (maybe who sent the message?) and the class in which the message belongs. So that when the website is opened, we will be able to see ALL messages said before
-2. Users?(accounts?)
-3. Add picture integration (later)
-
+2. Dates I think are ok.
+3. Notifications work if the app is open in the browser...(not very good)
