@@ -53,7 +53,7 @@
 					<option value="CMPSC221Verbanec">CMPSC 221 Verbanec</option>
 					<option value="CMPSC296">CMPSC 296 </option>
 					<option value="CMPSC311Urgaonkar">CMPSC 311 Urgaonkar</option>
-					<option value="CMPSC431W">CMPSC 431W </option>
+					<option value="CMPSC431WLin">CMPSC 431W Lin</option>
 					<option value="CMPSC443Tan">CMPSC 443 Tan </option>
 					<option value="CMPSC450Madduri">CMPSC 450 Madduri </option>
 					<option value="CMPSC451Madduri">CMPSC 451 Madduri </option>
@@ -119,6 +119,11 @@
 
 <script>
 
+
+// 	var notification = new Notification('Email received', {
+//   body: 'You have a total of 3 unread emails'
+// });
+
 	function validateForm(){
     	
 	    if(document.getElementById("username").value == "")
@@ -144,6 +149,24 @@
 
 
 $(document).ready(function() {
+	if (window.webkitNotifications && navigator.userAgent.indexOf("Chrome") > -1) {
+  console.log("Web Notifications are supported with the WebKit API");
+  Notification.requestPermission();
+} else if (window.Notification) {
+  console.log("Web Notifications are supported with the W3C/Safari API");
+  Notification.requestPermission();
+
+
+} else {
+  console.log("Web Notifications are not supported in this browser");
+}
+
+
+  // Let's check if the browser supports notifications
+
+  // Finally, if the user has denied notifications and you 
+  // want to be respectful there is no need to bother them any more.
+
 
 	$( "#mainDiv" ).fadeIn( 1200, function() {
     // Animation complete
@@ -155,7 +178,7 @@ $(document).ready(function() {
 
     // Login button click handler
     $('#joinRoomButton').on('click', function() {
-
+  
         bootbox
             .dialog({
                 title: 'Login',
