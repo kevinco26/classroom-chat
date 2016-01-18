@@ -113,7 +113,7 @@ io.on('connection', function(socket){
           }).save(function(err,doc){
             if(err) return err;
           });
-            console.log(newDate);
+          
 
    });
 
