@@ -62,7 +62,7 @@ var colors = [
  var countMessages = 0;
 
  // socket.username = user;
- console.log(socket);
+ // console.log(socket);
  var randomColorIndex = Math.floor((Math.random() * 12));
  var userColor = colors[randomColorIndex];
  // socket.colorUser = userColor;
@@ -155,7 +155,7 @@ objDiv.scrollTop = objDiv.scrollHeight;
   function submitForm()
   { 
       countMessages = 0;
-      console.log(userColor);
+      // console.log(userColor);
 
       var data = { msg: $('#m').val(), colorOfUser:userColor}; 
       if(document.getElementById("m").value != "")
