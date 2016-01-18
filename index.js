@@ -47,8 +47,8 @@ app.post('/class/:classID',function(req,res){
     //     return;
     // }
    res.sendFile(__dirname + '/index.html');
-   console.log(req.params.classID);
-   console.log(req.body.user.name);
+   // console.log(req.params.classID);
+   // console.log(req.body.user.name);
    username=req.body.user.name;
    room = req.params.classID;
    if(!rooms[room])     // if it is undefinced(first time we add something to the array (a new room) then we set the number of users in that room to 0)
@@ -94,7 +94,8 @@ io.on('connection', function(socket){
       colorOfUser:data.colorOfUser,
       username: socket.username
      });
-
+     // var dd = new Date();
+     // console.log(dd);
       new entry({
             date:      new Date(),            // When was the message sent
             message:  data.msg,               // the message itself
@@ -114,7 +115,7 @@ io.on('connection', function(socket){
       socket.username = username;
       console.log(username + " is Connected" );
       rooms[socket.room]++;
-      console.log("Num users in room" + room + "is " + rooms[socket.room])
+      // console.log("Num users in room" + room + "is " + rooms[socket.room])
       addedUser = true;
 
       socket.to(socket.room).emit('login', {
