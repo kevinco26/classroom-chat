@@ -96,8 +96,16 @@ io.on('connection', function(socket){
      });
      // var dd = new Date();
      // console.log(dd);
+     offset = -5.0
+
+    clientDate = new Date();
+    utc = clientDate.getTime() + (clientDate.getTimezoneOffset() * 60000);
+
+    serverDate = new Date(utc + (3600000*offset));
+
+    var newDate = serverDate.toLocaleString();
       new entry({
-            date:      new Date(),            // When was the message sent
+            date:      newDate,            // When was the message sent
             message:  data.msg,               // the message itself
             color:       data.colorOfUser,    // Color of the user
             username: socket.username,        // name of the person who sent it
@@ -105,8 +113,11 @@ io.on('connection', function(socket){
           }).save(function(err,doc){
             if(err) return err;
           });
+            console.log(newDate);
 
    });
+
+ 
 
     socket.on('add user', function(){
       if(addedUser)
