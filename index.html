@@ -66,7 +66,7 @@ var colors = [
  var randomColorIndex = Math.floor((Math.random() * 12));
  var userColor = colors[randomColorIndex];
  // socket.colorUser = userColor;
-
+ 
   socket.emit('add user');
   socket.emit('display messages');
   socket.emit('display notifications');
@@ -97,52 +97,9 @@ var colors = [
        var line;
     
        if(data[i].className == pathName){
-        if(window.innerWidth>1000){
-         if(msg.length>100)
-         {
-
-           line = $('<li><em style="color:#A0A0A0">'+data[i].date.substring(4,21) +'</em><strong style="color:'+data[i].color + '"> '+data[i].username + '</strong>: ' + msg.substring(0,100) +'</li>');
-           $('#messages').append(line);
-           msg = msg.substring(100);
-           while(msg.length>100)
-           {
-            line = $('<li>'+msg.substring(0,100) +'</li>');
-            $('#messages').append(line);
-            msg= msg.substring(100);
-
-           }
-         }
-         else
-         {
+     
            line = $('<li><em style="color:#A0A0A0">'+data[i].date.substring(4,21) +'</em><strong style="color:'+data[i].color + '"> '+data[i].username + '</strong>: ' + data[i].message +'</li>');
             $('#messages').append(line);
-         }
-       }
-       else
-       {
-          if(msg.length>25)
-         {
-
-           line = $('<li><em style="color:#A0A0A0">'+data[i].date.substring(4,21) +'</em><strong style="color:'+data[i].color + '"> '+data[i].username + '</strong>: ' + msg.substring(0,25) +'</li>');
-           $('#messages').append(line);
-           msg = msg.substring(25);
-           while(msg.length>40)
-           {
-            line = $('<li>'+msg.substring(0,40) +'</li>');
-            $('#messages').append(line);
-            msg= msg.substring(40);
-
-           }
-         }
-         else
-         {
-           line = $('<li><em style="color:#A0A0A0">'+data[i].date.substring(4,21) +'</em><strong style="color:'+data[i].color + '"> '+data[i].username + '</strong>: ' + data[i].message +'</li>');
-            $('#messages').append(line);
-         }
-
-
-       }
-
        }
 
      }  
@@ -220,53 +177,9 @@ objDiv.scrollTop = objDiv.scrollHeight;
        var line;
     
        
-        if(window.innerWidth>1000){
-         if(msg.length>100)
-         {
-
-           line = $('<li><em style="color:#A0A0A0">'+formattedDate +'</em><strong style="color:'+data.colorOfUser + '"> '+data.username + '</strong>: ' + msg.substring(0,100) +'</li>');
-           $('#messages').append(line);
-           msg = msg.substring(100);
-           while(msg.length>100)
-           {
-            line = $('<li>'+msg.substring(0,100) +'</li>');
-            $('#messages').append(line);
-            msg= msg.substring(100);
-
-           }
-         }
-         else
-         {
-           line = $('<li><em style="color:#A0A0A0">'+formattedDate +'</em><strong style="color:'+data.colorOfUser + '"> '+data.username + '</strong>: ' + data.msg +'</li>');
-            $('#messages').append(line);
-         }
-       }
-       else
-       {
-          if(msg.length>25)
-         {
-
-           line = $('<li><em style="color:#A0A0A0">'+formattedDate +'</em><strong style="color:'+data.colorOfUser + '"> '+data.username + '</strong>: ' + msg.substring(0,25) +'</li>');
-           $('#messages').append(line);
-           msg = msg.substring(25);
-           while(msg.length>40)
-           {
-            line = $('<li>'+msg.substring(0,40) +'</li>');
-            $('#messages').append(line);
-            msg= msg.substring(40);
-
-           }
-         }
-         else
-         {
            line = $('<li><em style="color:#A0A0A0">'+formattedDate+'</em><strong style="color:'+data.colorOfUser + '"> '+data.username + '</strong>: ' + data.msg +'</li>');
             $('#messages').append(line);
-         }
 
-
-       }
-
-           
     // $('#messages').append(line);
     var objDiv = document.getElementById("messages");
     $(".typingClass"+data.username).remove();
