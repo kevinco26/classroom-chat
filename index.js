@@ -96,14 +96,15 @@ io.on('connection', function(socket){
      });
      // var dd = new Date();
      // console.log(dd);
-     offset = -5.0
+    //  offset = -5.0
 
-    clientDate = new Date();
-    utc = clientDate.getTime() + (clientDate.getTimezoneOffset() * 60000);
+    // clientDate = new Date();
+    // utc = clientDate.getTime() + (clientDate.getTimezoneOffset() * 60000);
 
-    serverDate = new Date(utc + (3600000*offset));
+    // serverDate = new Date(utc + (3600000*offset));
 
-    var newDate = serverDate.toLocaleString();
+    // var newDate = serverDate.toLocaleString();
+    var newDate = Date();
       new entry({
             date:      newDate,            // When was the message sent
             message:  data.msg,               // the message itself
@@ -113,7 +114,8 @@ io.on('connection', function(socket){
           }).save(function(err,doc){
             if(err) return err;
           });
-          
+
+          console.log(newDate);
 
    });
 
