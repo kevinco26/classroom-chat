@@ -33,6 +33,9 @@ app.get('/',function(req,res){
 app.get('/starsPrueba.jpg',function(req,res){
    res.sendFile(__dirname + '/starsPrueba.jpg');
 });
+app.get('/notebook1.jpg',function(req,res){
+   res.sendFile(__dirname + '/notebook1.jpg');
+});
 app.get('/autogrow.js',function(req,res){
    res.sendFile(__dirname + '/autogrow.js');
 });
@@ -115,7 +118,7 @@ io.on('connection', function(socket){
             if(err) return err;
           });
 
-          console.log(newDate);
+          // console.log(newDate);
 
    });
 

@@ -23,7 +23,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" ></script>
  <script src="../autogrow.js"></script>
 
+
 <style>
+
 
 ::-webkit-scrollbar{
 
@@ -76,13 +78,13 @@ var colors = [
   var courseName;
   pathName = pathName.substring(7);  // Just get the class Name and Number. (CMPSC121, CMPSC473)
 
-  if(pathName.indexOf("483")!=-1 || pathName.indexOf("431")!=-1 || pathName.indexOf("497")!=-1){
+  if(pathName.indexOf("483")!=-1 || pathName.indexOf("431")!=-1 || pathName.indexOf("497")!=-1 || pathName.indexOf("111")!=-1 ){
     professor = pathName.substring(9);
     courseName = pathName.substring(0,9);
   }
   else{
-       professor = pathName.substring(8);
-       courseName = pathName.substring(0,8);
+       professor = pathName.substring(7);
+       courseName = pathName.substring(0,7);
   }
   socket.on('populate messages from DB', function (data){
     var objDiv = document.getElementById("messages");
@@ -115,7 +117,8 @@ var colors = [
     if (window.webkitNotifications && navigator.userAgent.indexOf("Chrome") > -1 || window.Notification) {
 
     if(data.roomUser == pathName)
-      var n = new Notification('Your room is active', {'body': 'People are talking in your room','icon':'starsPrueba.jpg'});
+      var n = new Notification('Your room is active', {'body': 'People are talking in your room','icon':'../notebook1.jpg'});
+      // console.log(n.icon);
     }
   });
 

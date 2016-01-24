@@ -12,6 +12,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/css/bootstrap-select.min.css">
 
 </head>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-72535013-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 <style>
 	body{
 		background-image: url("starsPrueba.jpg");
@@ -21,14 +31,20 @@
 		color:white;
 		/* text-align: auto !important;*/
 	}
+	hr{
+		width:80%;
+	}
 </style>
 <body>
 	<div style="text-align:center;display:none" id="mainDiv">
 	<h2 id="mainTitle" style="margin-top:100px;color:white"> Welcome to the Chat app!</h2>
 	<br>
 	<br>
-	<p class="container-fluid" style="color:white;text-align:center;"> Join and start discussing in any of the Computer Science courses being offered at PSU in Spring 2016!</p>
+	<p class="container-fluid" style="color:white;text-align:center;"> Join and start discussing in classes being offered at PSU in Spring 2016! (More to come soon)</p>
+	<br>
+	<hr>
 	</div>
+
 
 	<form id="loginForm" method="post" class="form-horizontal" style="display: none;" onsubmit="return validateForm();">
 	    <!-- <div class="form-group"> -->
@@ -36,12 +52,19 @@
 	    	<label class="col-xs-3 control-label">Class:</label>
 	    	
 	    	<select class="selectpicker" id="classes">
-					<option value="-1">Select a Class</option>
+	    			<option value="-1">Select a Class</option>
+					<option value="MATH141Fabbri">Math141 Fabbri</option>
+					<option value="MATH141Kazimierz">Math141 Kazimierz</option>
+					<option value="ECON102Brown">Econ102 Brown</option>
+					<option value="ECON104Brown">Econ104 Brown</option>
+					<!-- <option value="PHYS211Costantino">Phys211 Costantino</option> -->
+
+					<!-- <option value="-1">Select a Class</option>
 					<option value="CMPSC100Domico">CMPSC 100 Domico</option>
 					<option value="CMPSC101Parimalarangan">CMPSC 101 Parimalarangan</option>
 					<option value="CMPSC101Li">CMPSC 101 Li</option>
-					<option value="CMPSC101Tehranchi">CMPSC 101 Tehranchi</option>
-					<option value="CMPSC101Verbanek">CMPSC 101 Verbanec</option>
+					<option value="CMPSC101Tehranchi">CMPSC 101 Tehranchi</option> -->
+					<!-- <option value="CMPSC101Verbanek">CMPSC 101 Verbanec</option>
 					<option value="CMPSC101Kachurak">CMPSC 101 Kachurak</option>
 					<option value="CMPSC111SHannan">CMPSC 111S Hannan</option>
 					<option value="CMPSC121Shaffer">CMPSC 121 Shaffer</option>
@@ -65,7 +88,7 @@
 					<option value="CMPSC473Jaeger">CMPSC 473 Jaeger </option>
 					<option value="CMPSC483WVerbanec">CMPSC 483W Verbanec </option>
 					<option value="CMPSC497CKifer">CMPSC 497C Kifer </option>
-					<option value="CMPSC497EFast">CMPSC 497E Fast </option>
+					<option value="CMPSC497EFast">CMPSC 497E Fast </option> -->
 					
 			</select>
 			<script>
@@ -97,6 +120,7 @@
 	<br>
 
 	<div id="roomsDiv" class="row" class="container-fluid" style="margin-top:50px;padding-left:50px;display:none">
+
 		<div class="col-md-6">
 			<h2 style="color:white"> Join a Chat Room</h2>
 			<p>
